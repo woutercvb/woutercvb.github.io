@@ -38,6 +38,26 @@ a:visited {
   font-weight: bold;
   text-decoration: none;
 }
+
+
+
+
+a.extra:link {
+  color: #6495ED;
+  font-weight: bold;
+  text-decoration: none;
+}
+a.extra:hover {
+  color: #6495ED;
+  font-weight: bold;
+  text-decoration: underline;
+}
+a.extra:visited {
+  color: #6495ED;
+  font-weight: bold;
+  text-decoration: none;
+}
+
 	
 
 ul {
