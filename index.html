@@ -60,6 +60,30 @@ E-mail
 Preprints
 </h2>
 	<ul>
+	<li> S. Cambie, W. Cames van Batenburg and X. Zhu.  <a href="https://arxiv.org/abs/2312.17233"> Disjoint list-colorings for planar graphs</a>. 36pp. (2023+). <br/>
+    			<details open><summary><i>Abstract</i></summary><p class="indetails">
+				We study the existence of many disjoint list-colorings of a graph, with a focus on planar graphs under various girth constraints. We also consider H-minor-free graphs, where H is some small complete or complete bipartite graph H.
+				<ul><li>
+				Example 1: For every planar graph G and every list-assignment L with lists of size 8, there exist 8 disjoint proper L-colorings of G. 
+				This means that at every vertex v, each of the 8 colours in its list L(v) occurs in precisely one of the 8 L-colorings. 
+				In other words, the <i>list-packing number</i> of a planar graph is at most 8.
+				More generally, this is true for all K5-minor-free graphs, and even more generally for all graphs with maximum average degree <6.
+				</li><li>
+				Example 2: For every planar triangle-free graph, the list-packing number is at most 5. More generally this is true for all graphs with maximum average degree <4.
+				</li><li>	
+				Example 3: For every planar graph with girth g>=5, the list-packing number is at most 4. This is optimal for every g>=5.
+				</li><li>				
+				Example 4: Every planar graph of girth at least 6 has <i> fractional list-packing number </i> at most 3. 
+				By definition, this means that for every list-assignment L with lists of size 3, there exists a probability distribution on the proper L-colorings c of G
+				such that at every vertex v and for every colour x in its list L(v), the probability that v is coloured x by c  is 1/3. 
+				In other words: at every vertex, every allowed colour is equally likely to appear in a proper L-coloring.
+				</li></ul> <br>
+				All of the above also hold for correspondence-colorings instead of list-colorings.
+				Furthermore, as direct corollaries we improve bounds on (weighted) epsilon-flexibility for several classes of planar graphs.
+				The latter is a concept which has been introduced by Dvorak, Norin and Postle (2019) to encode how much
+				a proper L-coloring can be made to agree with any given (not necessarily proper) preferred L-coloring. 
+			
+			</p></details>
 	<li> S. Cambie, W. Cames van Batenburg, E. Davies and R.J. Kang.  <a href="https://arxiv.org/abs/2303.01246"> List packing number of bounded degree graphs</a>. 22pp. (2023+). <br/>
     			<details><summary><i>Abstract</i></summary><p class="indetails">
 				In our previous work we defined the <i>list packing number</i> of a graph, which is the least integer k such that there are always k disjoint proper list colourings whenever we have lists all of size k associated to the vertices.
@@ -68,33 +92,35 @@ Preprints
 				The main question we pursue is whether every graph with maximum degree $\Delta$ has list packing number at most $\Delta + 1$.
 				<br><br/>
 				We confirm this for small values of $\Delta$, and rather surpisingly we were also able to confirm the natural fractional relaxation for all values of $\Delta$.
-	
 				While the greedy bound indeed seems to extend nicely to the setting of listpacking, we find that Books' theorem does not carry over; there are several graphs other than cliques and odd cycles with (fractional) list packing number exactly $\Delta+1$.
 				Minor modifications of these results also hold for a more technical variant called the correspondence packing number.
 				Finally, we provide examples of graphs with a list-assignment for which almost all list colourings are proper, yet no list packing exists.
-
 			</p></details>
+	</ul>
 
 
-	<li> S. Cambie, W. Cames van Batenburg and D. Cranston.  <a href="https://arxiv.org/abs/2204.07928"> Optimally Reconfiguring List and Correspondence Colourings</a>. 18pp. (2022+). <br/>
+
+
+</div>
+<div id="container">
+<h2>
+Publications
+</h2>
+    	<ul>
+		<li> S. Cambie, W. Cames van Batenburg and D. Cranston.  <a href="https://arxiv.org/abs/2204.07928"> Optimally Reconfiguring List and Correspondence Colourings</a>. European Journal of Combinatorics, Volume 115, 103798. (2024). <br/>
 			<a class="extra" href="reconfiguration_talk_Wouter CvB_Eindhoven2022b.pdf"> |slides| </a>
     			<details><summary><i>Abstract</i></summary><p class="indetails">
-The reconfiguration graph $C_k(G)$ for the $k$-colourings of a graph $G$ has a
-vertex for each proper $k$-colouring of $G$, and two vertices of $C_k(G)$ are adjacent
-precisely when those $k$-colourings differ on a single vertex of
-$G$.  Much work has focused on bounding the maximum value of the diameter of $(C_k(G))$
-over all $n$-vertex graphs $G$.  We consider the analogous problems for list
-colourings and for correspondence colourings.
-<br/><br/>
-We conjecture that if $L$ is a list-assignment for a graph $G$ with $|L(v)|\ge
-d(v)+2$ for all $v\in V(G)$, then diameter$(C_L(G))\le n(G)+\mu(G)$, where $\mu(G)$ denotes the matching number of $G$.
-We also conjecture that if $(L,H)$ is a correspondence cover for a graph $G$ with
-$|L(v)|\ge d(v)+2$ for all $v\in V(G)$, then diam $C_{(L,H)}(G)\le n(G)+\tau(G)$, where $\tau(G)$ denotes the vertex cover number
-of $G$.
+			The reconfiguration graph $C_k(G)$ for the $k$-colourings of a graph $G$ has a vertex for each proper $k$-colouring of $G$, and two vertices of $C_k(G)$ are adjacent precisely when those $k$-colourings differ on a single vertex of $G$.  Much work has focused on bounding the maximum value of the diameter of $(C_k(G))$
+			over all $n$-vertex graphs $G$.  We consider the analogous problems for list colourings and for correspondence colourings.
+			<br/><br/>
+			We conjecture that if $L$ is a list-assignment for a graph $G$ with $|L(v)|\ge
+			d(v)+2$ for all $v\in V(G)$, then diameter$(C_L(G))\le n(G)+\mu(G)$, where $\mu(G)$ denotes the matching number of $G$.
+			We also conjecture that if $(L,H)$ is a correspondence cover for a graph $G$ with
+			$|L(v)|\ge d(v)+2$ for all $v\in V(G)$, then diam $C_{(L,H)}(G)\le n(G)+\tau(G)$, where $\tau(G)$ denotes the vertex cover number
+			of $G$.
 			</p></details>
 
-
-	<li> S. Cambie, W. Cames van Batenburg, E. Davies and R.J. Kang.  <a href="https://arxiv.org/abs/2110.05230"> Packing list-colourings</a>. 31pp. (2021+). <br/>
+		<li> S. Cambie, W. Cames van Batenburg, E. Davies and R.J. Kang.  <a href="https://arxiv.org/abs/2110.05230"> Packing list-colourings</a>.  Random Struct. Alg. 64 (2024), 62–93. 31pp. <br/>
 			<a class="extra" href="Talk_listpacking_Wouter_Delft_1april2022.pdf"> |slides| </a>
 			<a class="extra" href="listpack_extended abstract_ICGT2022.pdf"> |extended abstract| </a>
     			<details><summary><i>Abstract</i></summary><p class="indetails">
@@ -111,20 +137,6 @@ of $G$.
 				 Our study has taken inspiration from study of the strong chromatic number, and we also explore generalisations of the problem above in the same spirit, such as a packing variant of the <i>correspondence chromatic number</i>. 
 				For instance, we find that the correspondence packing number (and hence the list-packing number) of a bipartite graph with maximum degree $\Delta$ is at most $(1+o(1)) \Delta/\log \Delta$, which is sharp up to a factor at most two.
 			</p></details>
-
-
-
-	</ul>
-
-
-
-
-</div>
-<div id="container">
-<h2>
-Publications
-</h2>
-    	<ul>
 		<li> W. Cames van Batenburg. <a href="https://www.combinatorics.org/ojs/index.php/eljc/article/view/v29i2p36"> Minimum maximal matchings in cubic graphs</a>. The Electronic Journal of Combinatorics, 29(2): P2.36. (2022).<br/>
     			<details><summary><i>Abstract</i></summary><p class="indetails">
 				We prove that every connected cubic graph with $n$ vertices has a maximal matching of size at most $\frac{5}{12} n+ \frac{1}{2}$. This confirms the cubic case of a conjecture of Baste, F&uuml;rst, Henning, Mohr and Rautenbach (2019) on regular graphs. More generally, we prove that every graph with $n$ vertices and $m$ edges and maximum degree at most $3$ has a maximal matching of size at most $\frac{4n-m}{6}+ \frac{1}{2}$. These bounds are attained by the graph $K_{3,3}$, but asymptotically there may still be some room for improvement. Moreover, the claimed maximal matchings can be found efficiently. As a corollary, we have a $\left(\frac{25}{18} + O \left( \frac{1}{n}\right)\right) $-approximation algorithm for minimum maximal matching in connected cubic graphs.  
@@ -236,17 +248,26 @@ Other
   		<li> W. Cames van Batenburg, A. Czechowski, J. van den Leer Duran, B. Lindenhovius and E. Siero. <i>Frequency decompositions in autoregression models.</i> For the Dutch <i>Study Group Mathematics with Industry 2016</i>, 13pp. </li>
 	</ul>
 </div>
+
+
 <div id="container">
 <h2>
-Teaching
+Teaching and Supervision
 </h2>
 <p> At Université Libre de Bruxelles and then TU Delft, I lectured for the following courses:</p>
     <ul>
+	<li> Fall 2023, <i>Extremal Combinatorics</i>  </li> 
 	<li> February 2023, <i>Graph Theory</i>  </li> 
 	<li> Fall 2022, <i>Extremal Combinatorics</i>  </li> 
 	<li> Fall 2020, <i>Graphs and Networks</i>  </li> 
 	<li> November 2019, <i>Graphs and Networks</i> </li> 	
     </ul>
+
+<p> 
+	<ul> 
+		<li> In 2023, I supervised Koen Zeven for his Bachelor thesis called <a href="http://resolver.tudelft.nl/uuid:43108b69-8da3-4a86-b3aa-c4091c13139e">Reconfiguration of Graph Colorings</a>. </li>
+		<li> In 2023/2024, I supervised Lander Verlinde for his Master honours project, on high-dimensional generalisations of the Happy Ending Problem and the Big-Clique-Big-Line conjecture. A report is in preparation (as of Jan. 2024)</li>
+	</ul>
 
     <p> As a student at Leiden University (until 2013) and then as a PhD student at Radboud University (until 2017), I have taught exercise classes for the following courses: </p>
     <ul>
@@ -294,7 +315,8 @@ Collaborators
 	<a href="http://www.lbgi.fr/~pirot/"> Fran&ccedil;ois Pirot</a>,
 	<a href="https://perso.limos.fr/~jfraymon/"> Jean-Florent Raymond</a>,
 	<a href="https://www.uni-ulm.de/mawi/mawi-or/mitarbeiter/arthur-ulmer/"> Arthur Ulmer</a>,
-	<a href="https://xiaochenzheng.github.io/"> Xiaochen Y. Zheng</a>.
+	<a href="https://xiaochenzheng.github.io/"> Xiaochen Y. Zheng</a>,
+	<a href="https://scholar.google.com/citations?user=9NSDAxkAAAAJ&hl=zh-CN"> Xuding Zhu</a>.
 
 
 <!--
