@@ -12,10 +12,29 @@
 
 
 
+
 <div id="logobar">
+
+<img id="logo" src="screenshot_2tree_cover_inv.png" alt="Logo" style="width:11%" > &#8287 &#8287 &#8287
+<img id="logo" src="screenshot_hypercube_cover_inv.png" alt="Logo" style="width:10%" > &#8287 &#8287 &#8287
+<img id="logo" src="screenshot_treewidth3chicfrac5_inv.png" alt="Logo" style="width:10%" > &#8287 &#8287 &#8287
+<img id="logo" src="screenshot_hypercube_cover_inv.png" alt="Logo" style="width:10%" > &#8287 &#8287 &#8287
+<img id="logo" src="screenshot_treewidth3chicfrac5_inv.png" alt="Logo" style="width:10%" > &#8287 &#8287 &#8287
+<img id="logo" src="screenshot_hypercube_cover_inv.png" alt="Logo" style="width:10%" > &#8287 &#8287 &#8287
+<img id="logo" src="screenshot_2tree_cover_inv.png" alt="Logo" style="width:11%" >
+
+<!-- 
+<img id="logo" src="screenshot_2tree_cover_inv.png" alt="Logo" style="width:17%" >
+<hr>
+<hr>
+<hr>
+<hr>
+<hr>
+<img id="logo" src="radboud.jpg" alt="Logo" >
+<img id="logo" src="ulblogo1.jpg" alt="Logo" >
+<img id="logo" src="logoGscop.gif" alt="Logo" >
 <img id="logo" src="tudelft.png" alt="Logo" > 
- <!--  <img id="logo" src="logoGscop.gif" alt="Logo" >  -->
-   <!-- <img id="logo" src="ulblogo1.jpg" alt="Logo" > -->
+ -->
 </div>
 
 
@@ -68,47 +87,57 @@ Preprints
 
 	<li> S. Cambie, W. Cames van Batenburg and Daniel Cranston.  <a href="https://arxiv.org/abs/2412.19695"> Sharp Bounds on Lengths of Linear Recolouring Sequences</a>. 16pp. (2024+). <br/>
  			
-<details><summary><i>Abstract</i></summary><p class="indetails">
-A recolouring sequence, between k-colourings alpha and beta of a graph G, transforms alpha into beta by recolouring one vertex at a time, such that after each recolouring step we again have a proper k-colouring of G.  We are interested in (G,k) for which the maximum number of required recolouring steps is at most linear in the number of vertices of G. This is the <i>diameter</i> of (G,k). <br/><br/>
-(1) We find that even for simple graphs such as complete bipartite graphs, determining the exact value of the diameter is nontrivial, and in particular we observe two phase transitions as the size of one of its parts increases. <br/><br/>
-(2) We present an optimal version of the so-called Renaming Lemma, which has been used as a subroutine in several papers. If alpha and beta induce the same partition into colour classes, then they can be recoloured into each other in at most 3/2*|V(G)| recolouring steps. This is sharp and improves upon the often-used upper bound 2*|V(G)|.<br/><br/>
-(3) We show that the list-colouring version (instead taking lists of size k), or replacing k with k+1, does not have a predictable monotone effect. It does not always decrease the diameter, nor does it always increase the diameter. We are curious how extreme the fluctuations can be.
+<details open><summary><i>Abstract</i></summary><p class="indetails">
+A recolouring sequence, between k-colourings alpha and beta of a graph G, transforms alpha into beta by recolouring one vertex at a time, such that after each recolouring step we again have a proper k-colouring of G.  We are interested in (G,k) for which the maximum number of required recolouring steps is at most linear in the number of vertices of G. This is the <i>diameter</i> for (G,k). <br/><br/>  <img id='photo' src='screenshot_reconfigcompletebipartite_wideborder.png'>
+
+(1) We find that even for simple graphs such as complete bipartite graphs, determining the exact value of the diameter is nontrivial, and in particular we observe <b>two phase transitions</b> as the size of one of its parts increases. <br/><br/>
+(2) We present an optimal version of the so-called <b>Renaming Lemma</b>, which has been used as a subroutine in several papers. If alpha and beta induce the same partition into colour classes, then they can be recoloured into each other in at most 3/2*|V(G)| recolouring steps. This is sharp and improves upon the often-used upper bound 2*|V(G)|.<br/><br/>
+(3) We show that the list-colouring version (instead of taking lists of size k), or replacing k with k+1, does not have a predictable monotone effect. It does not always decrease the diameter, nor does it always increase the diameter. We are curious how extreme the fluctuations can be.
 			
 				</p></details>
 
 	<li> S. Cambie and W. Cames van Batenburg.  <a href="https://arxiv.org/abs/2410.02695"> Fractional list packing for layered graphs</a>. 20pp. (2024+). <br/>
  			
-<details><summary><i>Abstract</i></summary><p class="indetails">
-				In this paper we showcase techniques to bound the fractional list-packing number chi_L^(G) of a graph G,
-				a recently introduced graph ivariant that measures the existence of a `perfectly balanced' collection of proper colourings.<br/><br/>
-				It was known that chi_L^(G) is at most the treedepth of G. 
-				In this work we find that chi_L^(G) is at most 1 + pathwidth of G. 
-				This is a strengthening because treedepth is at most 1 + pathwidth  for every graph.
-				Moreover, we exhibit examples of graphs with chi_L^(G) strictly larger than 1 + treewidth.<br/><br/>
-				It is still unknown whether chi_L^(G) is at most 2 plus the degeneracy of G, but we make a small step in this direction.<br/><br/>
-				We also bound chi_L^(G) for the Cartesian product of graphs. In particular we find that it is at most k+1 for the Cartesian product
-				of k nontrivial trees, and this is tight. Previously this was only known for the Cartesian product of two paths.
+<details open><summary><i>Abstract</i></summary><p class="indetails">
+				In this paper we showcase techniques to bound the fractional list-packing number $\chi_{\ell}^{\bullet}(G)$ of a graph $G$,
+				a recently introduced graph invariant that measures the existence of a `perfectly balanced' collection of proper colourings. <br/><br/>
+<img id='photo' src='screenshot_treewidth3chicfrac5.png'>
+
+				(1) It was known that $\chi_{\ell}^{\bullet}(G)$ is at most the treedepth of $G$. 
+				In this work we find that it is <b>at most $1 +$ pathwidth</b> of $G$.
+				This is a strengthening because treedepth is at most $1 +$ pathwidth  for every graph.
+				Moreover, we exhibit examples of graphs with $\chi_{\ell}^{\bullet}(G)$ strictly larger than $1 +$ treewidth (such as the one in the picture on the right).<br/><br/>
+
+				(2) It is still unknown whether $\chi_{\ell}^{\bullet}(G)$ is at most  <b>2 plus the degeneracy</b> of $G$, but we make a small step in this direction.<br/><br/>
+
+				(3) We also bound $\chi_{\ell}^{\bullet}(G)$ for the <b>Cartesian product</b> of graphs. In particular we find that it is at most $k+1$ for the Cartesian product
+				of $k$ nontrivial trees, and this is tight. Previously this was only known for the Cartesian product of two paths.
 				</p></details>
 
 	<li> S. Cambie, W. Cames van Batenburg and X. Zhu.  <a href="https://arxiv.org/abs/2312.17233"> Disjoint list-colorings for planar graphs</a>. 36pp. (2023+). <br/>
 <a class="extra" href="Talk_Budapest_july2024.pdf"> |slides| </a>    			
-<details><summary><i>Abstract</i></summary><p class="indetails">
+<details open><summary><i>Abstract</i></summary><p class="indetails">
 				We study the existence of many disjoint list-colorings of a graph, with a focus on planar graphs under various girth constraints. We also consider H-minor-free graphs, where H is some small complete or complete bipartite graph H.
-				<ul><li>
-				Example 1: For every planar graph G and every list-assignment L with lists of size 8, there exist 8 disjoint proper L-colorings of G. 
+
+				<br/><br/>
+				<b>Example 1</b>: For every planar graph G and every list-assignment L with lists of size 8, there exist 8 disjoint proper L-colorings of G. 
 				This means that at every vertex v, each of the 8 colours in its list L(v) occurs in precisely one of the 8 L-colorings. 
 				In other words, the <i>list-packing number</i> of a planar graph is at most 8.
 				More generally, this is true for all K5-minor-free graphs, and even more generally for all graphs with maximum average degree <6.
-				</li><li>
-				Example 2: For every planar triangle-free graph, the list-packing number is at most 5. More generally this is true for all graphs with maximum average degree <4.
-				</li><li>	
-				Example 3: For every planar graph with girth g>=5, the list-packing number is at most 4. This is optimal for every g>=5.
-				</li><li>				
-				Example 4: Every planar graph of girth at least 6 has <i> fractional list-packing number </i> at most 3. 
+				<br/><br/>
+<img id='photo' src='screenshot_planarlargegirth_listpacknumbermorethan3.png'>
+
+				<b>Example 2</b>: For every planar triangle-free graph, the list-packing number is at most 5. More generally this is true for all graphs with maximum average degree <4.
+				<br/><br/>
+	
+				<b>Example 3</b>: For every planar graph with girth g>=5, the list-packing number is at most 4. This is optimal for every g>=5.
+
+				<br/><br/>				
+				<b>Example 4</b>: Every planar graph of girth at least 6 has <i> fractional list-packing number </i> at most 3. 
 				By definition, this means that for every list-assignment L with lists of size 3, there exists a probability distribution on the proper L-colorings c of G
 				such that at every vertex v and for every colour x in its list L(v), the probability that v is coloured x by c  is 1/3. 
 				In other words: at every vertex, every allowed colour is equally likely to appear in a proper L-coloring.
-				</li></ul> <br/>
+				 <br/><br/>
 				All of the above also hold for correspondence-colorings instead of list-colorings.
 				Furthermore, as direct corollaries we improve bounds on (weighted) epsilon-flexibility for several classes of planar graphs.
 				The latter is a concept which has been introduced by Dvorak, Norin and Postle (2019) to encode how much
