@@ -45,7 +45,7 @@
 </h1>
 
 
- My main research interests are in graph theory and combinatorics. In particular: colouring problems and extremal combinatorics on graphs. 
+ Hello, I'm a mathematician with a background in graph theory and combinatorics. 
 After my PhD in Nijmegen, I have worked as a postdoctoral researcher in Brussels (Belgium), Grenoble (France) and Delft (The Netherlands).
 
 
@@ -86,11 +86,11 @@ Preprints
 	<li> S. Cambie, W. Cames van Batenburg and Daniel Cranston.  <a href="https://arxiv.org/abs/2412.19695"> Sharp Bounds on Lengths of Linear Recolouring Sequences</a>. 16pp. (2024+). <br/>
  			
 <details open><summary><i>Abstract</i></summary><p class="indetails">
-A recolouring sequence, between k-colourings alpha and beta of a graph G, transforms alpha into beta by recolouring one vertex at a time, such that after each recolouring step we again have a proper k-colouring of G.  We are interested in (G,k) for which the maximum number of required recolouring steps is at most linear in the number of vertices of G. This is the <i>diameter</i> for (G,k). <br/><br/>  <img id='photo' src='screenshot_reconfigcompletebipartite_wideborder.png'>
+A recolouring sequence, between k-colourings alpha and beta of a graph G, transforms alpha into beta by recolouring one vertex at a time, such that after each recolouring step we again have a proper k-colouring of G.  The maximum number of required recolouring steps is the <i> k-diameter </i> of G. In this work we are interested in G for which the k-diameter is at most linear in the number of vertices of G. <br/><br/>  <img id='photo' src='screenshot_reconfigcompletebipartite_wideborder.png'>
 
 (1) We find that even for simple graphs such as complete bipartite graphs, determining the exact value of the diameter is nontrivial, and in particular we observe <b>two phase transitions</b> as the size of one of its parts increases. <br/><br/>
 (2) We present an optimal version of the so-called <b>Renaming Lemma</b>, which has been used as a subroutine in several papers. If alpha and beta induce the same partition into colour classes, then they can be recoloured into each other in at most 3/2*|V(G)| recolouring steps. This is sharp and improves upon the often-used upper bound 2*|V(G)|.<br/><br/>
-(3) We show that the list-colouring version (instead of taking lists of size k), or replacing k with k+1, does not have a predictable monotone effect. It does not always decrease the diameter, nor does it always increase the diameter. We are curious how extreme the fluctuations can be.
+(3) We observe that replacing k with k+1 does not have a predictable monotone effect. It does not always decrease the diameter, nor does it always increase the diameter. In the list-colouring analogue we demonstrate an even stronger variety. We are curious how extreme the fluctuations can be.
 			
 				</p></details>
 
@@ -102,14 +102,15 @@ A recolouring sequence, between k-colourings alpha and beta of a graph G, transf
 <img id='photo' src='screenshot_treewidth3chicfrac5.png'>
 
 				(1) It was known that $\chi_{\ell}^{\bullet}(G)$ is at most the treedepth of $G$. 
-				In this work we find that it is <b>at most $1 +$ pathwidth</b> of $G$.
-				This is a strengthening because treedepth is at most $1 +$ pathwidth  for every graph.
-				Moreover, we exhibit examples of graphs with $\chi_{\ell}^{\bullet}(G)$ strictly larger than $1 +$ treewidth (such as the one in the picture).<br/><br/>
+				In this work we strengthen this by proving that $\chi_{\ell}^{\bullet}(G)$ is <b>at most $1 +$ pathwidth</b> of $G$.
+				Moreover, we exhibit examples of graphs with $\chi_{\ell}^{\bullet}(G)$ strictly larger than $1 +$ treewidth, such as the one in the picture.<br/><br/>
 
 				(2) It is still unknown whether $\chi_{\ell}^{\bullet}(G)$ is at most  <b>2 plus the degeneracy</b> of $G$, but we make a small step in this direction.<br/><br/>
 
 				(3) We also bound $\chi_{\ell}^{\bullet}(G)$ for the <b>Cartesian product</b> of graphs. In particular we find that it is at most $k+1$ for the Cartesian product
-				of $k$ nontrivial trees, and this is tight. Previously this was only known for the Cartesian product of two paths.
+				of $k$ nontrivial trees, and this is tight. Previously this was only known for the Cartesian product of two paths. 
+
+<!--More generally, we find that taking the Cartesian product with a graph $H$ can increase $\chi_{\ell}^{\bullet}$ by at most the maximum degree of  $H$. -->
 				</p></details>
 
 	<li> S. Cambie, W. Cames van Batenburg and X. Zhu.  <a href="https://arxiv.org/abs/2312.17233"> Disjoint list-colorings for planar graphs</a>. 36pp. (2023+). <br/>
@@ -128,7 +129,7 @@ A recolouring sequence, between k-colourings alpha and beta of a graph G, transf
 				<b>Example 2</b>: For every planar triangle-free graph, the list-packing number is at most 5. More generally this is true for all graphs with maximum average degree <4.
 				<br/><br/>
 	
-				<b>Example 3</b>: For every planar graph with girth g>=5, the list-packing number is at most 4. This is optimal for every g>=5.
+				<b>Example 3</b>: For every planar graph with girth g>=5, the list-packing number is at most 4. This is optimal for every g>=5; see the picture for a construction attaining equality.
 
 				<br/><br/>				
 				<b>Example 4</b>: Every planar graph of girth at least 6 has <i> fractional list-packing number </i> at most 3. 
@@ -223,7 +224,7 @@ Publications
 		<li> N. Bousquet, W. Cames van Batenburg, L. Esperet, G. Joret, W. Lochet, C. Muller and F. Pirot. <a href="https://arxiv.org/abs/2001.04517"> Packing and covering balls in graphs excluding a minor</a>. Combinatorica, 41(1). (2021). <br/>	
 			<a class="extra" href="https://youtu.be/lHwCeQADLFg"> |talk by co-author| </a>
     			<details><summary><i>Abstract</i></summary><p class="indetails">
-				We prove that for every integer $t\ge 1$ there exists a constant $c_t$ such that for every $K_t$-minor-free graph $G$ and every set $S$ of balls in $G$, the minimum size of a set of vertices of $G$ intersecting all the balls of $S$ is at most $c_t$ times the maximum number of vertex-disjoint balls in $S$. This was conjectured by Chepoi, Estellon, and Vax&egrave;s in 2007 in the special case of planar graphs and of balls having the same radius.
+				We prove that for every integer $t\ge 1$ there exists a constant $c_t$ such that for every $K_t$-minor-free graph $G$ and every set $S$ of balls in $G$, the minimum size of a set of vertices of $G$ intersecting all the balls of $S$ is at most $c_t$ times the maximum number of vertex-disjoint balls in $S.$ This was conjectured by Chepoi, Estellon, and Vax&egrave;s in 2007 in the special case of planar graphs and of balls having the same radius.
 			</p></details> 
 
 		<li> W. Cames van Batenburg, G. Joret and A. Ulmer. <a href="https://arxiv.org/abs/1912.07965"> Erd&#x0151s-P&oacutesa from ball packing</a>. SIAM Journal on Discrete Mathematics, Volume 34, Issue 3, pages 1609-1619. (2020)<br/>
