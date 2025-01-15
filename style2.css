@@ -4,13 +4,22 @@ body {
   background-color: grey;
 }
 
-@media(max-width:800px){
+@media(min-width 320 and max-width:800px){
   body{
   font-family: sans-serif;
   font-size:17px;
   background-color: grey;
   }
 }
+
+@media(max-width:320px){
+  body{
+  font-family: sans-serif;
+  font-size:13px;
+  background-color: grey;
+  }
+}
+
 
 
 h1 {
