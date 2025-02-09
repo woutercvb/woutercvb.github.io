@@ -93,6 +93,11 @@ li {
   margin-bottom: 1em;
 }
 
+details summary:hover {
+    text-decoration: underline;
+}
+
+
 p.indetails {
   width: 90%;
   border: solid black 2px;
@@ -100,6 +105,8 @@ p.indetails {
   text-align: left;
   padding: 13px 15px 17px 15px
 }
+
+
 
 
 div#container {
@@ -138,14 +145,26 @@ img#photo {
   border: solid black 2px;
   float: right;
   margin: 1.5em;
+  margin-top: 65px;
 }
 
-@media(max-width:800px){
+@media(min-width:320px) and (max-width:800px){
 img#photo {
   width: 6em;
   border: solid black 2px;
   float: right;
   margin: 1.5em;
+  margin-top: 50px;
+}
+}
+
+@media(max-width:320px){
+img#photo {
+  width: 6em;
+  border: solid black 2px;
+  float: right;
+  margin: 1.5em;
+  margin-top: 55px;
 }
 }
 
