@@ -174,3 +174,12 @@ img#photo2 {
   float: center;
   margin: 1.5em;
 }
+
+
+img#photo3 {
+  width: 70%;
+  float: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
