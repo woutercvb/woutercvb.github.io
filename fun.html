@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cellular Automaton and more</title>
+  <style>
+    :root { --bg:#0b1020; --fg:#e6e6e6; --muted:#9aa3b2; --acc:#5dd6c0; --danger:#ff6257; --card:#151b31; --line:#24304d; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; background: var(--bg); color: var(--fg); }
+    h1 { font-size: 20px; margin: 0; }
+    .wrap { max-width: 1200px; margin: 24px auto; padding: 0 16px; }
+    .grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 16px; }
+    .card { background: var(--card); border:1px solid var(--line); border-radius: 16px; padding: 16px; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+    .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .spacer { flex: 1; }
+    .btn { appearance: none; border:1px solid var(--line); background:#1a2240; color:var(--fg); padding:8px 12px; border-radius: 12px; cursor: pointer; font-weight:600; }
+    .btn[disabled] { opacity: .5; cursor: not-allowed; }
+    .btn.secondary { background:#101733; }
+    .btn.ghost { background:transparent; }
+    .btn.danger { background:#2b1220; border-color:#572232; color:#ffd1d1; }
+    .label { font-size: 12px; color: var(--muted); }
+    .ctl { display:grid; gap:6px; }
+    .input, .select, textarea { background:#11162d; color:var(--fg); border:1px solid var(--line); border-radius: 10px; padding:8px 10px; }
+    textarea { width:100%; min-height: 120px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 12px; }
+    .two { display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+    .col { display:grid; gap:12px; }
+    .hint { font-size: 12px; color: var(--muted); }
+    .canvas-frame { position: relative; width: 100%; aspect-ratio: 1/1; border-radius: 16px; overflow: hidden; background: #000; }
+    canvas { width: 100%; height: 100%; image-rendering: pixelated; display:block; }
+    dialog { border:none; border-radius:16px; background:#0e152b; color:var(--fg); }
+    dialog::backdrop { background: rgba(0,0,0,.5); }
+    .kbd { padding:2px 6px; border-radius: 6px; border:1px solid var(--line); background:#0f152b; font-family: ui-monospace, monospace; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="row" style="margin-bottom:12px">
+      <h1>Cellular Automaton (n×n, custom rule)</h1>
+      <div class="spacer"></div>
+      <span class="label">Hello!</span>
+    </div>
+
+    <div class="grid">
+      <!-- Left: Canvas and transport -->
+      <div class="card">
+        <div class="canvas-frame"><canvas id="view"></canvas></div>
+        <div class="row" style="margin-top:12px">
+          <button id="start" class="btn">Start</button>
+          <button id="pause" class="btn secondary" disabled>Pause</button>
+          <button id="step" class="btn">Step</button>
+          <button id="rand" class="btn">Randomize (0–6)</button>
+          <button id="clear" class="btn ghost">Clear</button>
+          <div class="spacer"></div>
+          <span class="label">t = <span id="t">0</span></span>
+        </div>
+        <div class="row" style="margin-top:8px">
+          <button id="recBtn" class="btn">Record</button>
+          <button id="stop" class="btn danger" disabled>Stop & Save</button>
+          <span class="label">Export scale</span>
+          <select id="scale" class="select">
+            <option>1</option>
+            <option>2</option>
+            <option selected>4</option>
+            <option>8</option>
+          </select>
+          <span class="label">FPS</span>
+          <input id="fps" class="input" type="number" min="1" max="60" value="30" style="width:80px" />
+          <button id="viewVid" class="btn secondary" disabled>View last video</button>
+          <span id="recErr" class="label"></span>
+        </div>
+      </div>
+
+      <!-- Right: Controls -->
+      <div class="card">
+        <div class="two">
+          <div class="ctl"><label class="label" for="n">Grid size (n)</label>
+            <div class="row"><input id="n" class="input" type="number" min="5" max="1000" value="200" style="width:120px" />
+            <button id="applyN" class="btn">Apply</button></div>
+            <div class="hint">Type a value and press <span class="kbd">Enter</span> or click Apply.</div>
+          </div>
+          <div class="ctl"><label class="label" for="speed">Speed (ms/step)</label>
+            <input id="speed" class="input" type="number" min="1" max="2000" value="200" />
+          </div>
+        </div>
+
+        <div class="two">
+          <div class="ctl"><span class="label">Boundary</span>
+            <div class="row">
+              <button id="wrap" class="btn">Wrap</button>
+              <button id="clamp" class="btn secondary">Clamp (zeros)</button>
+            </div>
+          </div>
+
+          <div class="ctl"><span class="label">Initial condition</span>
+            <div class="row">
+              <label><input type="checkbox" id="centerSeed"/> Single 1 at center (applies on Clear)</label>
+              <button id="seedNow" class="btn ghost">Seed center now</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="ctl">
+          <div class="row" style="justify-content:space-between; align-items:center">
+            <label class="label" for="preset">Rule f (editable)</label>
+            <select id="preset" class="select" style="width:240px"></select>
+          </div>
+          <textarea id="rule"></textarea>
+          <div class="hint">
+            Your rule must be a function: <code>(N, value, t, i, j, rand, D, M) =&gt; number</code>.<br/>
+            Where <b>N</b> = [N,E,S,W], <b>D</b> = [NE,SE,SW,NW], and <b>M</b> = [N,E,S,W,NE,SE,SW,NW].
+          </div>
+        </div>
+
+        <div class="ctl">
+          <span class="label">Color palette</span>
+          <div class="two">
+            <select id="paletteMode" class="select">
+              <option>Fire</option>
+              <option>Hue</option>
+              <option>Grayscale</option>
+              <option>Viridis</option>
+              <option>Ice</option>
+              <option>Custom</option>
+            </select>
+            <select id="paletteScale" class="select">
+              <option>Modulo</option>
+              <option>FrameMax</option>
+            </select>
+          </div>
+          <div class="two">
+            <div class="ctl"><label class="label" for="mod">Palette modulo</label>
+              <input id="mod" class="input" type="number" min="2" max="512" value="5" />
+            </div>
+            <div class="ctl"><label class="label" for="stops">Custom gradient stops</label>
+              <input id="stops" class="input" value="#2c7bb6,#abd9e9,#ffffbf,#fdae61,#d7191c" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Video dialog -->
+  <dialog id="vidDlg">
+    <h3>Last recording</h3>
+    <video id="vid" controls style="width: min(90vw, 720px); border-radius: 12px; display:block; margin-top:12px"></video>
+    <div class="row" style="margin-top:8px">
+      <button id="download" class="btn">Download</button>
+      <button id="closeDlg" class="btn secondary">Close</button>
+    </div>
+  </dialog>
+
+  <canvas id="recCanvas" style="display:none"></canvas>
+
+<script>
+(() => {
+  // ------------ Utilities ------------
+  const clampInt = (v, min, max) => Math.max(min, Math.min(max, Math.round(Number.isFinite(v)?v:0)));
+  const lerp = (a,b,t)=>a+(b-a)*t;
+  const lerpRgb = (a,b,t)=>[0,1,2].map(k=>Math.round(lerp(a[k],b[k],t)));
+  const hexToRgb = (hex) => { const s=hex.replace('#','').trim(); if(!(s.length===6||s.length===3)) return null; const full=s.length===3?s.split('').map(c=>c+c).join(''):s; const n=parseInt(full,16); return [(n>>16)&255,(n>>8)&255,n&255]; };
+  const makeGradient = (stops) => {
+    const colors = stops.map(hexToRgb).filter(Boolean);
+    if (!colors.length) return x=>[0,0,0];
+    return x => { const t=Math.min(1,Math.max(0,x)); const pos=t*(colors.length-1); const i=Math.floor(pos); const f=pos-i; if(i>=colors.length-1) return colors[colors.length-1]; return lerpRgb(colors[i], colors[i+1], f); };
+  };
+  const viridis = makeGradient(['#440154','#482878','#3e4a89','#31688e','#26828e','#1f9e89','#35b779','#6ece58','#b5de2b','#fde725']);
+  const fire = makeGradient(['#000000','#8b0000','#ff4500','#ffff66','#ffffff']);
+  const ice  = makeGradient(['#001233','#1b3b6f','#3c6e71','#a6e1fa','#ffffff']);
+  const hslToRgb = (h,s,l)=>{ s/=100; l/=100; const c=(1-Math.abs(2*l-1))*s; const hp=h/60; const x=c*(1-Math.abs((hp%2)-1)); let r=0,g=0,b=0; if(0<=hp&&hp<1){r=c;g=x;b=0;} else if(1<=hp&&hp<2){r=x;g=c;b=0;} else if(2<=hp&&hp<3){r=0;g=c;b=x;} else if(3<=hp&&hp<4){r=0;g=x;b=c;} else if(4<=hp&&hp<5){r=x;g=0;b=c;} else {r=c;g=0;b=x;} const m=l-c/2; return [Math.round((r+m)*255),Math.round((g+m)*255),Math.round((b+m)*255)]; };
+
+  // ------------ DOM refs ------------
+  const cvs = document.getElementById('view');
+  const tEl = document.getElementById('t');
+  const btnStart = document.getElementById('start');
+  const btnPause = document.getElementById('pause');
+  const btnStep = document.getElementById('step');
+  const btnRand = document.getElementById('rand');
+  const btnClear = document.getElementById('clear');
+  const inN = document.getElementById('n');
+  const btnApplyN = document.getElementById('applyN');
+  const inSpeed = document.getElementById('speed');
+  const btnWrap = document.getElementById('wrap');
+  const btnClamp = document.getElementById('clamp');
+  const chkCenter = document.getElementById('centerSeed');
+  const btnSeedNow = document.getElementById('seedNow');
+  const selPreset = document.getElementById('preset');
+  const txtRule = document.getElementById('rule');
+  const selPaletteMode = document.getElementById('paletteMode');
+  const selPaletteScale = document.getElementById('paletteScale');
+  const inModulo = document.getElementById('mod');
+  const inStops = document.getElementById('stops');
+  const btnRec = document.getElementById('recBtn');
+  const btnStop = document.getElementById('stop');
+  const selScale = document.getElementById('scale');
+  const inFps = document.getElementById('fps');
+  const btnViewVid = document.getElementById('viewVid');
+  const recErr = document.getElementById('recErr');
+  const recCanvas = document.getElementById('recCanvas');
+  const dlg = document.getElementById('vidDlg');
+  const vid = document.getElementById('vid');
+  const btnDownload = document.getElementById('download');
+  const btnCloseDlg = document.getElementById('closeDlg');
+
+  // ---- runtime self-checks ("tests") ----
+  console.groupCollapsed('[Self-checks]');
+  console.assert(cvs instanceof HTMLCanvasElement, 'view canvas missing');
+  console.assert(recCanvas instanceof HTMLCanvasElement, 'recCanvas must be a <canvas>');
+  console.assert(document.getElementById('recBtn') instanceof HTMLButtonElement, 'Record button present');
+  console.groupEnd();
+
+  // ------------ State ------------
+  let n = 200; let speedMs = 200; let running = false; let wrap = true; let t = 0;
+  let paletteMode = 'Fire'; let paletteScale = 'Modulo'; let paletteModulo = 5; let customStops = '#2c7bb6,#abd9e9,#ffffbf,#fdae61,#d7191c';
+  let grid = new Float64Array(n*n);
+  let gridView = grid; // ref
+  let ruleText = `(N) => (N[0] + N[1] + N[2] + N[3]) % 7`;
+  let ruleFn = compileRule(ruleText);
+  let singlePointInit = false;
+  let exportScale = 4; let exportFps = 30;
+  let animId = null; let lastTick = 0;
+  let mediaRecorder = null; let chunks = []; let lastBlob = null; let lastUrl = null;
+
+  const PRESETS = {
+    "Sum mod 7 (von Neumann)": `(N) => (N[0] + N[1] + N[2] + N[3]) % 7`,
+    "Moore sum mod 5": `(N, value, t, i, j, rand, D, M) => M.reduce((a,b)=>a+b,0) % 5`,
+    "Use self (GoL-like)": `(N, value) => (N[0]+N[1]+N[2]+N[3]) === 3 ? 1 : (value && (N[0]+N[1]+N[2]+N[3]) === 2 ? 1 : 0)`,
+    "Diagonal parity": `(N, value, t, i, j, rand, D) => (D[0]+D[1]+D[2]+D[3]) % 2`,
+  };
+
+  // init preset dropdown
+  for (const k of Object.keys(PRESETS)) {
+    const opt = document.createElement('option'); opt.value = k; opt.textContent = k; selPreset.appendChild(opt);
+  }
+  selPreset.value = 'Sum mod 7 (von Neumann)';
+  txtRule.value = ruleText;
+
+  // ------------- Helpers -------------
+  function compileRule(text) {
+    try { const f = (new Function('Math', 'rand', `return (${text});`))(Math, Math.random);
+      if (typeof f !== 'function') throw new Error('Rule must be a function');
+      return (N, value, t, i, j, rand, D, M) => { const out = f(N, value, t, i, j, rand, D, M); return Number.isFinite(out) ? out : 0; };
+    } catch (e) { console.warn('Rule compile error', e); return (_N, value)=>value; }
+  }
+  const paletteFn = (xNorm) => {
+    const mode = paletteMode;
+    if (mode === 'Hue') return hslToRgb((xNorm||0)*360, 70, 50);
+    if (mode === 'Grayscale') { const g = Math.round(Math.max(0, Math.min(1, xNorm)) * 255); return [g,g,g]; }
+    if (mode === 'Viridis') return viridis(xNorm);
+    if (mode === 'Fire') return fire(xNorm);
+    if (mode === 'Ice') return ice(xNorm);
+    return makeGradient(customStops.split(',').map(s=>s.trim()).filter(Boolean))(xNorm);
+  };
+  const seedCenter = (size) => { const buf = new Float64Array(size*size); const c = Math.floor(size/2); buf[c*size+c] = 1; return buf; };
+
+  function resizeGrid(newN) {
+    const next = new Float64Array(newN*newN);
+    const m = Math.min(newN, n);
+    for (let i=0;i<m;i++) for (let j=0;j<m;j++) next[i*newN+j] = grid[i*n+j] || 0;
+    n = newN; grid = next; gridView = grid; t = 0; draw();
+  }
+
+  // ------------- Drawing -------------
+  function drawBuffer(buffer) {
+    const ctx = cvs.getContext('2d'); if (!ctx) return;
+    const W = cvs.clientWidth|0, H = cvs.clientHeight|0; if (cvs.width!==W) cvs.width=W; if (cvs.height!==H) cvs.height=H;
+
+    let maxV = 1; if (paletteScale==='FrameMax') { let m=0; for (let k=0;k<buffer.length;k++){ const v=buffer[k]; if (Number.isFinite(v)&&v>m) m=v; } maxV = m||1; }
+
+    const off = document.createElement('canvas'); off.width = n; off.height = n; const octx = off.getContext('2d');
+    const img = octx.createImageData(n, n); const data = img.data;
+    for (let i=0;i<n;i++) for (let j=0;j<n;j++){
+      const v = buffer[i*n+j] | 0;
+      let xNorm; if (paletteScale==='Modulo'){ const denom=(paletteModulo-1)||1; const mod=((v%paletteModulo)+paletteModulo)%paletteModulo; xNorm = mod/denom; } else { xNorm = Math.min(1, Math.max(0, v/maxV)); }
+      const [r,g,b] = paletteFn(xNorm); const idx = (i*n+j)*4; data[idx]=r; data[idx+1]=g; data[idx+2]=b; data[idx+3]=255;
+    }
+    octx.putImageData(img,0,0);
+    ctx.imageSmoothingEnabled = false; ctx.clearRect(0,0,W,H); ctx.drawImage(off,0,0,W,H);
+
+    // Mirror into recording canvas (high-res)
+    if (recCanvas instanceof HTMLCanvasElement) {
+      const rw = n*exportScale, rh = n*exportScale; if (recCanvas.width!==rw) recCanvas.width=rw; if (recCanvas.height!==rh) recCanvas.height=rh;
+      const rctx = recCanvas.getContext('2d'); if (rctx) { rctx.imageSmoothingEnabled = false; rctx.clearRect(0,0,rw,rh); rctx.drawImage(off,0,0,rw,rh); }
+    }
+  }
+  function draw(){ drawBuffer(gridView); tEl.textContent = String(t); }
+
+  // ------------- Simulation -------------
+  function step(){
+    const prev = grid; const next = new Float64Array(n*n);
+    const wrapIndex = (x) => (x + n) % n; const inBounds = (i,j) => (i>=0&&i<n&&j>=0&&j<n);
+    const get = (i,j) => prev[i*n+j]; const safe = (i,j) => inBounds(i,j) ? get(i,j) : 0;
+    for (let i=0;i<n;i++) for (let j=0;j<n;j++){
+      const iN = wrap ? wrapIndex(i-1) : i-1; const iS = wrap ? wrapIndex(i+1) : i+1; const jW = wrap ? wrapIndex(j-1) : j-1; const jE = wrap ? wrapIndex(j+1) : j+1;
+      const N4 = [ safe(iN,j), safe(i,jE), safe(iS,j), safe(i,jW) ];
+      const D4 = [ safe(iN,jE), safe(iS,jE), safe(iS,jW), safe(iN,jW) ];
+      const M8 = [...N4, ...D4]; const value = safe(i,j);
+      const nv = ruleFn(N4, value, t, i, j, Math.random, D4, M8);
+      next[i*n+j] = Number.isFinite(nv) ? nv : 0;
+    }
+    grid = next; gridView = grid; t++; draw();
+  }
+
+  function tick(now){
+    if(!running){ return; }
+    if(!lastTick) lastTick = now;
+    while(now - lastTick >= speedMs){ step(); lastTick += speedMs; }
+    animId = requestAnimationFrame(tick);
+  }
+
+  // ------------- Recording -------------
+  function startRecording(){
+    recErr.textContent = '';
+    if (!(recCanvas instanceof HTMLCanvasElement)) { recErr.textContent = 'Recording canvas missing'; return; }
+    try{ draw(); }catch{}
+    const fps = clampInt(parseInt(inFps.value||'30'),1,60); exportFps = fps;
+    const stream = recCanvas.captureStream ? recCanvas.captureStream(fps) : null;
+    if(!stream){ recErr.textContent = 'captureStream() not supported'; return; }
+    try {
+      const preferred = ['video/webm;codecs=vp8','video/webm;codecs=vp9','video/webm'];
+      const mime = preferred.find(m => window.MediaRecorder && MediaRecorder.isTypeSupported ? MediaRecorder.isTypeSupported(m) : true);
+      const rec = mime ? new MediaRecorder(stream, { mimeType: mime }) : new MediaRecorder(stream);
+      let localChunks = [];
+      rec.ondataavailable = (e)=>{ if(e.data && e.data.size>0) localChunks.push(e.data); };
+      rec.onstop = ()=>{
+        if(localChunks.length===0 && rec.requestData){ try{ rec.requestData(); }catch{} }
+        const type = mime || 'video/webm'; const blob = new Blob(localChunks, { type });
+        if(!blob || blob.size===0){ recErr.textContent = 'Recording was empty.'; return; }
+        if(lastUrl) URL.revokeObjectURL(lastUrl); lastBlob = blob; lastUrl = URL.createObjectURL(blob);
+        btnViewVid.disabled = false; openVideo();
+      };
+      rec.start(250);
+      mediaRecorder = rec; chunks = []; // maintain globals too
+      btnRec.disabled = true; btnStop.disabled = false;
+    } catch(err){ recErr.textContent = 'MediaRecorder error'; console.warn(err); }
+  }
+  function stopRecording(){ if(mediaRecorder && mediaRecorder.state!=='inactive'){ mediaRecorder.stop(); } btnRec.disabled = false; btnStop.disabled = true; }
+
+  function openVideo(){ if(!lastUrl) return; vid.src = lastUrl; if(typeof dlg.showModal === 'function'){ dlg.showModal(); } else { alert('Your browser does not support <dialog>. The video will open in a new tab.'); window.open(lastUrl, '_blank'); } }
+  function downloadVideo(){ if(!lastBlob) return; const url = URL.createObjectURL(lastBlob); const a=document.createElement('a'); a.href=url; a.download=`automaton-${new Date().toISOString().replace(/[:.]/g,'-')}.webm`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url), 1000); }
+
+  // ------------- Events -------------
+  btnStart.onclick = () => { if(running) return; running = true; lastTick = 0; requestAnimationFrame(tick); btnStart.disabled = true; btnPause.disabled = false; };
+  btnPause.onclick = () => { running = false; btnStart.disabled = false; btnPause.disabled = true; };
+  btnStep.onclick = () => { if(!running) step(); };
+  btnRand.onclick = () => { const buf = new Float64Array(n*n); for(let k=0;k<buf.length;k++) buf[k]=Math.floor(Math.random()*7); grid=buf; gridView=grid; t=0; draw(); };
+  btnClear.onclick = () => { grid = singlePointInit ? seedCenter(n) : new Float64Array(n*n); gridView=grid; t=0; draw(); };
+
+  cvs.addEventListener('click', (e)=>{
+    const rect = cvs.getBoundingClientRect(); const x=e.clientX-rect.left, y=e.clientY-rect.top;
+    const j = clampInt(Math.floor((x/rect.width)*n), 0, n-1); const i = clampInt(Math.floor((y/rect.height)*n), 0, n-1);
+    const buf = new Float64Array(grid); buf[i*n+j] = buf[i*n+j] ? 0 : 1; grid = buf; gridView = grid; draw();
+  });
+
+  inN.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ document.getElementById('applyN').click(); } });
+  btnApplyN.onclick = () => { const parsed = parseInt(inN.value,10); if(Number.isFinite(parsed)){ const cl = clampInt(parsed,5,400); inN.value = String(cl); resizeGrid(cl); }};
+  inSpeed.oninput = () => { speedMs = clampInt(parseInt(inSpeed.value||'200',10),1,2000); };
+  btnWrap.onclick = () => { wrap = true; btnWrap.classList.remove('secondary'); btnClamp.classList.add('secondary'); };
+  btnClamp.onclick = () => { wrap = false; btnClamp.classList.remove('secondary'); btnWrap.classList.add('secondary'); };
+  chkCenter.onchange = () => { singlePointInit = chkCenter.checked; };
+  btnSeedNow.onclick = () => { grid = seedCenter(n); gridView=grid; t=0; draw(); };
+
+  selPreset.onchange = () => { const k = selPreset.value; txtRule.value = PRESETS[k]; ruleText = txtRule.value; ruleFn = compileRule(ruleText); };
+  txtRule.oninput = () => { ruleText = txtRule.value; ruleFn = compileRule(ruleText); };
+
+  selPaletteMode.onchange = () => { paletteMode = selPaletteMode.value; draw(); };
+  selPaletteScale.onchange = () => { paletteScale = selPaletteScale.value; draw(); };
+  inModulo.oninput = () => { paletteModulo = clampInt(parseInt(inModulo.value||'5'),2,512); inModulo.value = String(paletteModulo); draw(); };
+  inStops.oninput = () => { customStops = inStops.value; draw(); };
+
+  selScale.onchange = () => { exportScale = clampInt(parseInt(selScale.value||'4'),1,8); draw(); };
+  inFps.oninput = () => { exportFps = clampInt(parseInt(inFps.value||'30'),1,60); };
+  btnRec.onclick = startRecording; btnStop.onclick = stopRecording; btnViewVid.onclick = openVideo;
+  btnDownload.onclick = downloadVideo; btnCloseDlg.onclick = () => dlg.close();
+
+  // ------------- Initial draw -------------
+  draw();
+})();
+</script>
+</body>
+</html>
