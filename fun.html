@@ -49,7 +49,7 @@
           <button id="start" class="btn">Start</button>
           <button id="pause" class="btn secondary" disabled>Pause</button>
           <button id="step" class="btn">Step</button>
-          <button id="rand" class="btn">Randomize (0–6)</button>
+          <button id="rand" class="btn">Randomize</button>
           <button id="clear" class="btn ghost">Clear</button>
           <div class="spacer"></div>
           <span class="label">t = <span id="t">0</span></span>
@@ -79,7 +79,7 @@
             <button id="applyN" class="btn">Apply</button></div>
           </div>
           <div class="ctl"><label class="label" for="speed">Speed (ms/step)</label>
-            <input id="speed" class="input" type="number" min="1" max="2000" value="200" />
+            <input id="speed" class="input" type="number" min="5" max="2000" value="200" />
           </div>
 	</br>
         </div>
@@ -90,7 +90,7 @@
               <button id="wrap" class="btn">Wrap around</button>
 	    </div>
 	    <div class="row">
-              <button id="clamp" class="btn secondary">Zero on boundary</button>
+              <button id="clamp" class="btn secondary">Zeros on boundary</button>
             </div>
           </div>
 
@@ -110,8 +110,9 @@
           </div>
           <textarea id="rule"></textarea>
           <div class="hint">
-            Your rule must be a function: <code>(N, value, t, i, j, rand, D, M) =&gt; number</code>.
-            Where <b>N</b> = [N,E,S,W], <b>D</b> = [NE,SE,SW,NW], and <b>M</b> = [N,E,S,W,NE,SE,SW,NW].
+            Your rule must be a function of the form </br>
+	 <code>(N, value, t, i, j, rand, D, M) =&gt; number</code>. </br>
+            Here <b>N</b> = [N,E,S,W], <b>D</b> = [NE,SE,SW,NW], and <b>M</b> = [N,E,S,W,NE,SE,SW,NW].
           </div>
         </div>
 	
@@ -137,8 +138,11 @@
             <div class="ctl"><label class="label" for="mod">Palette modulo</label>
               <input id="mod" class="input" type="number" min="2" max="512" value="5" />
             </div>
-            <div class="ctl"><label class="label" for="stops">Custom gradient stops</label>
+            <div class="ctl"><label class="label" for="stops">Custom colours</label>
               <input id="stops" class="input" value="#2c7bb6,#abd9e9,#ffffbf,#fdae61,#d7191c" />
+            </div>
+            <div class="ctl"><label class="label" for="randMax">Range for randomization</label>
+                <input id="randMax" class="input" type="number" min="1" value="2">
             </div>
           </div>
         </div>
@@ -232,8 +236,19 @@
     "Moore sum mod 5": `(N, value, t, i, j, rand, D, M) => M.reduce((a,b)=>a+b,0) % 5`,
     "Gentle chaos": `(N, value, t, i, j, rand, D, M) => (M.reduce((a,b)=>a+b,0) * 0.0005 + (M[6] + M[2] + M[5] + M[7] + M[3] )/ 5.0 )  % 4`,
     "Exploding sun": `(N, value, t, i, j, rand, D, M) => {const s = M.reduce((a, b) => a + b, 0); if (t % 11 === 0) {return s % 8;} else if (t % 8 === 1) {return value;} else {return s/8}}`,
-    "Use self (GoL-like)": `(N, value) => (N[0]+N[1]+N[2]+N[3]) === 3 ? 1 : (value && (N[0]+N[1]+N[2]+N[3]) === 2 ? 1 : 0)`,
+    "Game of Life": `(N, value, t,i,j,rand,D,M) => {
+  const s = M[0]+M[1]+M[2]+M[3]+M[4]+M[5]+M[6]+M[7];
+  if (s === 3) {
+    return 1;
+  } else if (value && s === 2) {
+    return 1;
+  } else {
+    return 0;
+  }
+}`,
     "Diagonal parity": `(N, value, t, i, j, rand, D) => (D[0]+D[1]+D[2]+D[3]) % 2`,
+    "Average": `(N, value, t, i, j, rand, D) => (D[0]+D[1]+D[2]+D[3]) /4`,
+    "Algebraic": `(N, value, t, i, j) => (i*i+j*j+i*j)*t`,
   };
 
   // init preset dropdown
@@ -351,7 +366,7 @@
   btnStart.onclick = () => { if(running) return; running = true; lastTick = 0; requestAnimationFrame(tick); btnStart.disabled = true; btnPause.disabled = false; };
   btnPause.onclick = () => { running = false; btnStart.disabled = false; btnPause.disabled = true; };
   btnStep.onclick = () => { if(!running) step(); };
-  btnRand.onclick = () => { const buf = new Float64Array(n*n); for(let k=0;k<buf.length;k++) buf[k]=Math.floor(Math.random()*7); grid=buf; gridView=grid; t=0; draw(); };
+  btnRand.onclick = () => { const rangeInput = document.getElementById('randMax'); const range = Math.max(1, parseInt(rangeInput.value) || 1); const buf = new Float64Array(n*n); for(let k=0;k<buf.length;k++) buf[k]=Math.floor(Math.random()*range); grid=buf; gridView=grid; t=0; draw(); };
   btnClear.onclick = () => { grid = singlePointInit ? seedCenter(n) : new Float64Array(n*n); gridView=grid; t=0; draw(); };
 
   cvs.addEventListener('click', (e)=>{
