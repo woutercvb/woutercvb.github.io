@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Cellular Automaton and more</title>
+  <title>Functionizer and more</title>
   <style>
     :root { --bg:#0b1020; --fg:#e6e6e6; --muted:#9aa3b2; --acc:#5dd6c0; --danger:#ff6257; --card:#151b31; --line:#24304d; }
     * { box-sizing: border-box; }
@@ -36,7 +36,7 @@
 <body>
   <div class="wrap">
     <div class="row" style="margin-bottom:12px">
-      <h1>Cellular Automaton (n×n, custom rule)</h1>
+      <h1>Functionizer v0.2</h1>
       <div class="spacer"></div>
       <span class="label">Hello!</span>
     </div>
@@ -75,20 +75,22 @@
       <div class="card">
         <div class="two">
           <div class="ctl"><label class="label" for="n">Grid size (n)</label>
-            <div class="row"><input id="n" class="input" type="number" min="5" max="1000" value="200" style="width:120px" />
+            <div class="row"><input id="n" class="input" type="number" min="5" max="1000" value="200" style="width:100px" />
             <button id="applyN" class="btn">Apply</button></div>
-            <div class="hint">Type a value and press <span class="kbd">Enter</span> or click Apply.</div>
           </div>
           <div class="ctl"><label class="label" for="speed">Speed (ms/step)</label>
             <input id="speed" class="input" type="number" min="1" max="2000" value="200" />
           </div>
+	</br>
         </div>
 
         <div class="two">
-          <div class="ctl"><span class="label">Boundary</span>
+          <div class="ctl"><label class="label">Boundary</label>
             <div class="row">
-              <button id="wrap" class="btn">Wrap</button>
-              <button id="clamp" class="btn secondary">Clamp (zeros)</button>
+              <button id="wrap" class="btn">Wrap around</button>
+	    </div>
+	    <div class="row">
+              <button id="clamp" class="btn secondary">Zero on boundary</button>
             </div>
           </div>
 
@@ -99,6 +101,7 @@
             </div>
           </div>
         </div>
+	</br>
 
         <div class="ctl">
           <div class="row" style="justify-content:space-between; align-items:center">
@@ -107,11 +110,13 @@
           </div>
           <textarea id="rule"></textarea>
           <div class="hint">
-            Your rule must be a function: <code>(N, value, t, i, j, rand, D, M) =&gt; number</code>.<br/>
+            Your rule must be a function: <code>(N, value, t, i, j, rand, D, M) =&gt; number</code>.
             Where <b>N</b> = [N,E,S,W], <b>D</b> = [NE,SE,SW,NW], and <b>M</b> = [N,E,S,W,NE,SE,SW,NW].
           </div>
         </div>
-
+	
+	</br>
+	
         <div class="ctl">
           <span class="label">Color palette</span>
           <div class="two">
@@ -225,6 +230,8 @@
   const PRESETS = {
     "Sum mod 7 (von Neumann)": `(N) => (N[0] + N[1] + N[2] + N[3]) % 7`,
     "Moore sum mod 5": `(N, value, t, i, j, rand, D, M) => M.reduce((a,b)=>a+b,0) % 5`,
+    "Gentle chaos": `(N, value, t, i, j, rand, D, M) => (M.reduce((a,b)=>a+b,0) * 0.0005 + (M[6] + M[2] + M[5] + M[7] + M[3] )/ 5.0 )  % 4`,
+    "Exploding sun": `(N, value, t, i, j, rand, D, M) => {const s = M.reduce((a, b) => a + b, 0); if (t % 11 === 0) {return s % 8;} else if (t % 8 === 1) {return value;} else {return s/8}}`,
     "Use self (GoL-like)": `(N, value) => (N[0]+N[1]+N[2]+N[3]) === 3 ? 1 : (value && (N[0]+N[1]+N[2]+N[3]) === 2 ? 1 : 0)`,
     "Diagonal parity": `(N, value, t, i, j, rand, D) => (D[0]+D[1]+D[2]+D[3]) % 2`,
   };
