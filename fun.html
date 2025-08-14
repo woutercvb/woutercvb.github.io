@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Functionizer and more</title>
+  <title>Functionizer V0</title>
   <style>
     :root { --bg:#0b1020; --fg:#e6e6e6; --muted:#9aa3b2; --acc:#5dd6c0; --danger:#ff6257; --card:#151b31; --line:#24304d; }
     * { box-sizing: border-box; }
@@ -75,7 +75,7 @@
       <div class="card">
         <div class="two">
           <div class="ctl"><label class="label" for="n">Grid size (n)</label>
-            <div class="row"><input id="n" class="input" type="number" min="5" max="1000" value="200" style="width:100px" />
+            <div class="row"><input id="n" class="input" type="number" min="5" max="600" value="200" style="width:100px" />
             <button id="applyN" class="btn">Apply</button></div>
           </div>
           <div class="ctl"><label class="label" for="speed">Speed (ms/step)</label>
@@ -236,6 +236,8 @@
     "Moore sum mod 5": `(N, value, t, i, j, rand, D, M) => M.reduce((a,b)=>a+b,0) % 5`,
     "Gentle chaos": `(N, value, t, i, j, rand, D, M) => (M.reduce((a,b)=>a+b,0) * 0.0005 + (M[6] + M[2] + M[5] + M[7] + M[3] )/ 5.0 )  % 4`,
     "Exploding sun": `(N, value, t, i, j, rand, D, M) => {const s = M.reduce((a, b) => a + b, 0); if (t % 11 === 0) {return s % 8;} else if (t % 8 === 1) {return value;} else {return s/8}}`,
+    "Chaotic wave": `(N, value, t, i, j, rand, D, M) => ((M[4]+M[5]+M[6]+M[7])%4 + M[4]+M[5]+M[6]+M[7])/4`,
+    "Chaotic wave2": `(N, value, t, i, j, rand, D, M) => ((value + M[4]+M[5]+M[6]+M[7])%40)/20 + (value + M[4]+M[5]+M[6]+M[7])/5`,
     "Game of Life": `(N, value, t,i,j,rand,D,M) => {
   const s = M[0]+M[1]+M[2]+M[3]+M[4]+M[5]+M[6]+M[7];
   if (s === 3) {
@@ -376,7 +378,7 @@
   });
 
   inN.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ document.getElementById('applyN').click(); } });
-  btnApplyN.onclick = () => { const parsed = parseInt(inN.value,10); if(Number.isFinite(parsed)){ const cl = clampInt(parsed,5,400); inN.value = String(cl); resizeGrid(cl); }};
+  btnApplyN.onclick = () => { const parsed = parseInt(inN.value,10); if(Number.isFinite(parsed)){ const cl = clampInt(parsed,5,600); inN.value = String(cl); resizeGrid(cl); }};
   inSpeed.oninput = () => { speedMs = clampInt(parseInt(inSpeed.value||'200',10),1,2000); };
   btnWrap.onclick = () => { wrap = true; btnWrap.classList.remove('secondary'); btnClamp.classList.add('secondary'); };
   btnClamp.onclick = () => { wrap = false; btnClamp.classList.remove('secondary'); btnWrap.classList.add('secondary'); };
