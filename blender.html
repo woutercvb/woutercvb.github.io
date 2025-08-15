@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Blender v0 — f (evolve) + g (display) + Images A/B</title>
+  <title>Blender- evolve and mix pictures</title>
   <style>
     :root { --bg:#0b1020; --fg:#e6e6e6; --muted:#9aa3b2; --acc:#5dd6c0; --danger:#ff6257; --card:#151b31; --line:#24304d; }
     * { box-sizing: border-box; }
@@ -74,7 +74,7 @@
       <div class="card">
         <div class="two">
           <div class="ctl"><label class="label" for="n">Grid size (n)</label>
-            <div class="row"><input id="n" class="input" type="number" min="5" max="600" value="200" style="width:100px" />
+            <div class="row"><input id="n" class="input" type="number" min="5" max="600" value="300" style="width:100px" />
               <button id="applyN" class="btn">Apply</button></div>
           </div>
           <div class="ctl"><label class="label" for="speed">Speed (ms/step)</label>
@@ -99,6 +99,7 @@
           </div>
         </div>
 
+</br>
         <!-- f: Evolution rule -->
         <div class="ctl">
           <div class="rule-header">
@@ -107,12 +108,13 @@
           </div>
           <textarea id="ruleF"></textarea>
           <div class="hint">
-            f must be:<br/>
+            Rule f must be of the form 
             <code>(N, value, t, i, j, rand, D, M, A, B) =&gt; number</code><br/>
-            It evolves the hidden scalar grid from time <code>t</code> to <code>t+1</code>.
+            It evolves the hidden picture from time <code>t</code> to <code>t+1</code>. Here A and B refer to the uploaded pictures. 
           </div>
         </div>
 
+</br>
         <!-- g: Display rule -->
         <div class="ctl">
           <div class="rule-header">
@@ -121,12 +123,16 @@
           </div>
           <textarea id="ruleG"></textarea>
           <div class="hint">
-            g must be:<br/>
+            Rule g must be of the form
             <code>(N, value, t, i, j, rand, D, M, A, B) =&gt; number | [r,g,b]</code><br/>
-            Number → colored via palette. Array → true RGB (0–1 or 0–255).
+	   This determines what you actually see on the left screen.
+           If output is a number, then colored via palette.
+ 	   If output is an [r,g,b] array, then colored via true RGB (0–1 or 0–255).
+	   
           </div>
         </div>
 
+</br>
         <!-- Palette (for numeric g) + randomization -->
         <div class="ctl">
           <span class="label">Color palette (used only when g returns a number)</span>
@@ -151,10 +157,10 @@
             </div>
           </div>
         </div>
-
+</br>
         <!-- Image inputs -->
         <div class="ctl">
-          <span class="label">Image inputs (optional)</span>
+          <span class="label"> </span>
           <div class="two">
             <div class="ctl">
               <label class="label" for="imgA">Image A</label>
@@ -304,7 +310,7 @@ const PRESETS_F = {
     "Algebraic": `(N, value, t, i, j) => (i*i+j*j+i*j)*t`,
   };
   const PRESETS_G = {
-    "Value (palette)": `(N, value) => value`,
+    "Same as current output of f": `(N, value) => value`,
     "Image A (RGB)": `(N, value, t, i, j, rand, D, M, A, B) => [A(i,j,'r'), A(i,j,'g'), A(i,j,'b')]`,
     "Image B (RGB)": `(N, value, t, i, j, rand, D, M, A, B) => [B(i,j,'r'), B(i,j,'g'), B(i,j,'b')]`,
     "Oscillate A↔B (every step)": `(N, value, t, i, j, rand, D, M, A, B) => (t%2===0) ? [A(i,j,'r'),A(i,j,'g'),A(i,j,'b')] : [B(i,j,'r'),B(i,j,'g'),B(i,j,'b')]`,
@@ -315,7 +321,7 @@ const PRESETS_F = {
   for (const k of Object.keys(PRESETS_F)) { const o=document.createElement('option'); o.value=k; o.textContent=k; selPresetF.appendChild(o); }
   for (const k of Object.keys(PRESETS_G)) { const o=document.createElement('option'); o.value=k; o.textContent=k; selPresetG.appendChild(o); }
   selPresetF.value = 'Sum mod 5';
-  selPresetG.value = 'Value (palette)';
+  selPresetG.value = 'Same as current output of f';
 
   // Default rules text
   txtRuleF.value = PRESETS_F[selPresetF.value];
