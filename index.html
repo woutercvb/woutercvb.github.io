@@ -91,9 +91,14 @@ E-mail
 </h2>
 	<ul>
 
+<li>  W. Cames van Batenburg, Q. Claus, G. Joret, R. Petit, J-F Florent and E. Robinson.  <a href="https://doi.org/10.48550/arXiv.2609.15596"> An improved bound on the treewidth of planar graphs excluding a grid minor</a>. $23$ pages. (2026+). <br/>  			
+<details open><summary><i>Abstract</i></summary><p class="indetails">
+We show that every planar graph with no t×t grid minor has treewidth at most 4t+4. This improves on the previously best known bound of roughtly 9t/2 due to Gu and Tamaki (2012), and is within a factor $2$ of optimal.
+</p></details>
+
 <li>  W. Cames van Batenburg, J. Goedgebeur and J. Jooken.  <a href="https://doi.org/10.48550/arXiv.2608.23260"> Counterexamples to the Albertson-Berman conjecture: minimum order, connectivity and an improved ratio bound</a>. $11$ pages. (2026+). <br/>  			
 <details open><summary><i>Abstract</i></summary><p class="indetails">
-Due to the four-colour theorem, every $n$-vertex planar graph contains an induced bipartite graph on at least $n/2$ vertices. Albertson and Berman (1979) posed a notorious stronger conjecture: there is also an induced forest on at least $n/2$ vertices. This was recently disproved by two independent authors, with surprisingly small counterexamples. We provide an even smaller graph, on only 29 vertices, and we show that this is the smallest possible counterexample. For this graph, the ratio between the largest induced forest and $n$ is $14/29$, already beating the previous best ratio. We further reduce it via an infinite family of graphs with ratio $25/52$. Our improved counterexamples are made possible by a new $17$-vertex gadget graph in which every maximum induced forest uses both endpoints of one specific edge. </p></details>
+Due to the four-colour theorem, every $n$-vertex planar graph contains an induced bipartite graph on at least $n/2$ vertices. Albertson and Berman (1979) posed a notorious stronger conjecture: there is also an induced forest on at least $n/2$ vertices. This was recently disproved by two independent authors, with surprisingly small counterexamples. We provide an even smaller counterexample, on only 29 vertices, and we show that this is optimal. For this graph, the ratio between the largest induced forest and $n$ is $14/29$, already beating the previous best ratio. We further reduce it via an infinite family of graphs with ratio $25/52$. Our improved counterexamples are made possible by a new $17$-vertex gadget graph in which every maximum induced forest uses both endpoints of one specific edge. </p></details>
 
 <li>  W. Cames van Batenburg and S. Korsky.  <a href="https://doi.org/10.48550/arXiv.2608.03965"> Asymptotically attaining the Moore bound</a>. $7+\epsilon$ pages. (2026+). <br/>
 <a class="extra" href="https://github.com/woutercvb/wewantmoore"> |Lean| </a>   			
@@ -119,7 +124,7 @@ This is about a guessing game played on a graph $G$.
 
 Imagine each vertex of the graph is a person, each of which gets a fancy hat on their head. Every hat has one of $q$ possible colours. Every person can only see the hat colours of its direct neighbours, and in particular not their own colour. To win the game, at least one person will need to correctly guess the color of its own hat. To achieve this goal, the people may first discuss and devise a strategy. This discussion takes place before the start of the game and before the placement of the hats. What is the smallest integer $q$ such that there exists a strategy for which the people will always win the game, no matter how the hats are subsequently placed? This is the classic Hat Guessing Game.</br></br>
 
-The current paper studies a natural variant where additionally the colourings must be proper; every two adjacent people receive distinct hat colours. This means that the people have more information available, so a priori they may also have a winning strategy for larger values of $q$. Among many other results, this paper shows that if the maximum degree of the graph is $\Delta$, then there is still no winning strategy whenever $q>=(1+e)\Delta$. On the positive side, when $G$ is the complete graph with $n$ vertices, then the people can win with $q=2n-1$ colours, essentially twice the optimum for the classic Hat Guessing Game.
+The current paper studies a natural variant where additionally the colourings must be proper; every two adjacent people receive distinct hat colours. This means that the people have more information available, so a priori they may also have a winning strategy for larger values of $q$. Among many other results, this paper shows that if the maximum degree of the graph is $\Delta$, then there is still no winning strategy whenever $q \ge (1+e)\Delta$. On the positive side, when $G$ is the complete graph with $n$ vertices, then the people can win with $q=2n-1$ colours, essentially twice the optimum for the classic Hat Guessing Game.
 
 </br></br>
 In technical terms, the hat guessing games are equivalent to a question about the existence of independent transversals in certain hypergraphs.
@@ -480,6 +485,7 @@ Collaborators
 	<a href="https://perso.liris.cnrs.fr/nbousquet/"> Nicolas Bousquet</a>,
 	<a href="https://stijncambie.github.io/"> Stijn Cambie</a>,
 	<a href="https://web.math.princeton.edu/~mchudnov/"> Maria Chudnovsky</a>,
+	<a href="https://scholar.google.com/citations?hl=nl&user=mSSeR6QAAAAJ"> Quentin Claus</a>,
 	<a href="https://dimag.ibs.re.kr/home/cook/"> Linda Cook</a>,
 	<a href="https://graphcoloringmethods.com/writing.html"> Daniel Cranston</a>,
 	<a href="https://www.ewandavies.org/"> Ewan Davies</a>,
@@ -495,7 +501,7 @@ Collaborators
 	<a href="http://www.math.ru.nl/~rkang/"> Ross J. Kang</a>,
 	<a href="https://www.labri.fr/perso/fkardos"> Franti&#353;ek Kardo&#353;</a>,
 	<a href="https://skelk.sdf-eu.org/"> Steven Kelk</a>,
-	<a href="https://dimag.ibs.re.kr/home/seokbeom/> Seokbeom Kim</a>,
+	<a href="https://dimag.ibs.re.kr/home/seokbeom/"> Seokbeom Kim</a>,
 	<a href="https://scholar.google.com/citations?hl=nl&user=hiAhMTgAAAAJ"> Samuel Korsky</a>,
 	<a href="https://www.universiteitleiden.nl/en/staffmembers/lars-van-der-kuil#tab-1"> Lars van der Kuil</a>,
 	<a href="http://perso.ens-lyon.fr/william.lochet/"> William Lochet</a>,
@@ -505,9 +511,11 @@ Collaborators
 	<a href="http://www.math.rug.nl/~tobias/"> Tobias M&uuml;ller</a>,
 	<a href="https://sangil.dimag.kr/"> Sang-il Oum</a>,
 	<a href="https://sites.google.com/site/vireshspatel/"> Viresh Patel</a>,
+	<a href="https://scholar.google.com/citations?hl=nl&user=E8xLV1IAAAAJ"> Robin Petit</a>,
 	<a href="http://www.lbgi.fr/~pirot/"> Fran&ccedil;ois Pirot</a>,
 	<a href="https://www.tudelft.nl/ewi/over-de-faculteit/afdelingen/applied-mathematics/people/a-ananth-ravi-msc"> Ananth Ravi</a>,
 	<a href="https://perso.limos.fr/~jfraymon/"> Jean-Florent Raymond</a>,
+	<a href="https://eileen.robinson.web.ulb.be/"> Eileen Robinson</a>,
 	<a href="https://uwaterloo.ca/scholar/mrundstr/home"> Matthieu Rundstr&ouml;m</a>,
 	<a href="https://www.uni-ulm.de/mawi/mawi-or/mitarbeiter/arthur-ulmer/"> Arthur Ulmer</a>,
 	<a href="https://xiaochenzheng.github.io/"> Xiaochen Y. Zheng</a>,
